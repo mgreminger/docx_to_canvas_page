@@ -1,6 +1,14 @@
+
 # Docx to Canvas Page Converter
 
 Automates the conversion of Microsoft Word (`.docx`) documents into accessible, natively formatted Canvas Pages.
+
+## Important Notes & Warnings
+* **General Warning:** This script uses the Canvas API which may make irreversible changes to your Canvas course. The authors of this script are not responsible for any harms caused.
+* **Canvas API Token:** These instructions ask you to create a Canvas API token. This API token is all powerful and anyone who posses it can make changes to any Canvas course attached to your account. You should give this token a expiration date that forces it to expire after a short period of time (1 or 2 days) and keep it in a safe place that no one else has access to. You can delete this token in your Canvas account settings at anytime.
+* **Image Overwrite Warning:** To prevent image collisions, the script prefixes uploaded images with the Word document's filename. **If you convert two different `.docx` files that have the exact same filename, the images from the second document will overwrite the images from the first document in Canvas**, breaking the first Canvas page. Always ensure your `.docx` files have unique names before running the script.
+* **Canvas Image File Cleanup:** When images are uploaded during execution, they are saved directly to the Canvas course's **Files** directory. If a generated Canvas Page is deleted, the HTML page reference is removed, but the uploaded image files remain stored in the Canvas Files repository. Unused images must be deleted manually from the Canvas **Files** tab if storage cleanup is required.
+
 
 ## Core Features
 
@@ -82,9 +90,3 @@ uv run canvas_script.py "C:\path\to\assignment.docx"
 
 The script will convert the document, upload all embedded images, format accessibility structures, generate a new Canvas Page using the document filename as the title, and print the output page URL.
 
----
-
-## Important Notes & Warnings
-
-* **Image Overwrite Warning:** To prevent image collisions, the script prefixes uploaded images with the Word document's filename. **If you convert two different `.docx` files that have the exact same filename, the images from the second document will overwrite the images from the first document in Canvas**, breaking the first Canvas page. Always ensure your `.docx` files have unique names before running the script.
-* **Canvas Image File Cleanup:** When images are uploaded during execution, they are saved directly to the Canvas course's **Files** directory. If a generated Canvas Page is deleted, the HTML page reference is removed, but the uploaded image files remain stored in the Canvas Files repository. Unused images must be deleted manually from the Canvas **Files** tab if storage cleanup is required.
