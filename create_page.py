@@ -8,6 +8,7 @@
 # ///
 
 import os
+import re
 from typing import cast
 import argparse
 import subprocess
@@ -38,7 +39,7 @@ def main():
     API_KEY = os.getenv("CANVAS_API_KEY")
     COURSE_ID = os.getenv("CANVAS_COURSE_ID")
 
-    if not API_KEY or not COURSE_ID or not API_KEY:
+    if not API_KEY or not COURSE_ID:
         print("Error: Canvas API Key or Course ID missing. Please check your .env file.")
         return
 
@@ -94,12 +95,22 @@ def main():
                     header.name = 'h4'
 
         # --- Step 3: Upload images and update HTML links ---
+        # Create a clean prefix from the page title (removes spaces/special chars) to prevent Canvas overwrites
+        safe_prefix = re.sub(r'[^A-Za-z0-9]', '_', page_title)
+
         for img in soup.find_all("img"):
             local_image_path = img.get("src")
             
             if isinstance(local_image_path, str) and os.path.exists(local_image_path):
-                print(f"Uploading {os.path.basename(local_image_path)}...")
-                success, response = course.upload(local_image_path)
+                # Rename the file locally to namespace it before uploading
+                original_name = os.path.basename(local_image_path)
+                unique_name = f"{safe_prefix}_{original_name}"
+                unique_local_path = os.path.join(os.path.dirname(local_image_path), unique_name)
+                
+                os.rename(local_image_path, unique_local_path)
+                
+                print(f"Uploading {unique_name}...")
+                success, response = course.upload(unique_local_path)
                 
                 if success:
                     # Update to the live Canvas URL
@@ -137,7 +148,7 @@ def main():
                             img.insert_after(details)
 
                 else:
-                    print(f"Failed to upload {local_image_path}")
+                    print(f"Failed to upload {unique_local_path}")
 
         # --- Step 4: Create the Canvas Page ---
         print(f"Creating Canvas page: '{page_title}'...")
