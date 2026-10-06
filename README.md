@@ -16,7 +16,6 @@ Automates the conversion of Microsoft Word (`.docx`) documents into accessible, 
 * **Image Uploads:** Local images are extracted from the Word document, uploaded to the target Canvas course's Files repository, and updated in the page HTML with their live Canvas URLs.
 * **Long Alt Text Handling:** If an image's `alt` text exceeds 120 characters, the script sets the image `alt` attribute to a concise fallback and appends an HTML5 `<details>`/`<summary>` dropdown block directly beneath the image containing the complete description.
 * **Heading Hierarchy Normalization:** Detects `<h1>` elements in the document and shifts the heading hierarchy down (capping at `<h4>`) to prevent conflicts with Canvas's reserved page title `<h1>`.
-* **Clean Formatting:** Strips orphaned images inside headers and converts Word `<blockquote>` elements into clean, indented `<div>` containers.
 
 ---
 
