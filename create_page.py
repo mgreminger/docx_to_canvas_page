@@ -138,12 +138,9 @@ def main():
                         
                         # 3. Safely insert the details block after the image's container
                         parent_fig = img.find_parent("figure")
-                        parent_block = img.find_parent(["p", "div"])
                         
                         if parent_fig:
-                            parent_fig.insert_after(details)
-                        elif parent_block:
-                            parent_block.insert_after(details)
+                            parent_fig.append(details)
                         else:
                             img.insert_after(details)
 
